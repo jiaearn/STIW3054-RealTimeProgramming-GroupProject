@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Request Assistance{% endblock  %}
+
+{% block custom_css %}
+
+{% endblock  %}
+{% block content_title %}
+<h1> Request Assistance </h1>
+{% endblock  %}
+{% block content %}
+
+{% for msg in messages %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  {{ msg }}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+
+<form method="POST" action="">
+        {% csrf_token %}
+        <div class="form-control {% if field.user_name.errors %}errors{% endif %}" >
+            {% for field in assistance_form %}
+            <div class="mb-3">
+                {{ field.label_tag}}
+                {{ field }}
+                {{ field.errors }}
+            </div>
+        {% endfor %}
+             <button type="submit" class="btn btn-primary text-center">Request</button>
+        </div>
+        
+</form>
+
+{% endblock  %}

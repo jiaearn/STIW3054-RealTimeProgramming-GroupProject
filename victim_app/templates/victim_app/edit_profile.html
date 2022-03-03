@@ -1,0 +1,257 @@
+{% extends "victimbase.html" %}
+
+{% block title %}
+    {{ victim.ic }}
+{% endblock %}
+{% block custom_css %}
+
+    <style>
+        body{
+            background-color: #f8f9fc;
+        }
+
+        .border-style{
+            border-radius: 10px;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <script language="JavaScript">
+        function formValidation() {
+
+            /*Get Data*/
+            const icNum = document.trackstatus.icNum;
+            const name = document.trackstatus.name;
+            const phone = document.trackstatus.phone;
+            const poskod = document.trackstatus.poskod;
+
+            /*Validate*/
+            const all_letters = /^[A-Za-z "]+$/;
+            const phone_start = /^[0]/;
+            const phone_len = phone.value.length;
+            const ic_len = icNum.value.length;
+            const poskod_len = poskod.value.length;
+
+            /*Name Contain Only Alphabet*/
+            if (!name.value.match(all_letters)) {
+                alert("Name must contain only alphabet characters.");
+                name.focus();
+                return false;
+            }
+            /*IC Number Contain Only Numeric*/
+            else if (isNaN(icNum.value)) {
+                alert("IC number must contain only numeric characters.")
+                icNum.focus();
+                return false;
+            }
+            /*IC Number Length*/
+            else if (ic_len < 12 || ic_len > 12) {
+                alert("IC number length should equal 12.");
+                icNum.focus();
+                return false;
+            }
+            /*Phone Number Contain Only Numeric*/
+            else if (isNaN(phone.value)) {
+                alert("Phone number must contain only numeric characters.")
+                phone.focus();
+                return false;
+            }
+            /*Phone Number Start With Zero*/
+            if (!phone.value.match(phone_start)) {
+                alert("Phone number should start with zero. Please insert again");
+                phone.focus();
+                return false;
+            }
+            /*Phone Number Length Must Greater Than 9 and Lower Than 13*/
+            else if (phone_len < 10 || phone_len > 13) {
+                alert("Phone number length must be between 10 to 13.");
+                phone.focus();
+                return false;
+            }
+            /*Poskod Length*/
+            else if (poskod_len < 5 || poskod_len > 5) {
+                alert("Poskod length should equal 5.");
+                poskod.focus();
+                return false;
+            }
+        }
+    </script>
+
+    <style>
+        .btn:hover {
+            box-shadow: 0 0 20px 10px hsla(0, 0%, 50%, 0.5);
+            color: #fff;
+            background: #000;
+            border: 0;
+        }
+
+    </style>
+    <div class="px-2 px-sm-0">
+        <div class="container mb-5 pb-3 shadow border-style" style="background: #fff">
+            <div class="row mt-5">
+                <div class="col-1"></div>
+                <div class="col-10">
+                    <form action="" method="post" enctype="multipart/form-data" name="trackstatus" onSubmit="return formValidation();">
+                    {% csrf_token %}
+                        <div class="row">
+                            <div class="col">
+                                <h3 class="my-4 text-center">Victim Assistance Details</h3>
+                                <div class="mb-4 row">
+                                    <label for="staticEmail" class="col-md-2 col-sm-4 col-form-label">Victim Name</label>
+                                    <div class="col-md-10 col-sm-8">
+                                        <input type="text" class="form-control" id='name' name='name' value='{{victim.name}}'>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-4 row">
+                                    <label for="staticEmail" class="col-sm-4 col-form-label">IC Number</label>
+                                    <div class="col-sm-8">
+                                        <input type="number" class="form-control" id="icNum" name="icNum"  value='{{victim.ic}}'>
+                                    </div>
+                                </div>
+                                <div class="mb-4 row">
+                                    <label for="staticEmail" class="col-sm-4 col-form-label">Phone</label>
+                                    <div class="col-sm-8">
+                                        <input type="number" class="form-control" value="{{ victim.phone }}" id="phone" name="phone" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-4 row">
+                                    <label for="staticEmail" class="col-sm-4 col-form-label">Salary</label>
+                                    <div class="col-sm-8">
+                                        <input type="number" class="form-control" value="{{ victim.salary }}" id="salary" name="salary" required>
+                                    </div>
+                                </div>
+                                <div class="mb-4 row">
+                                    <label for="staticEmail" class="col-sm-4 col-5 col-form-label">House Hold</label>
+                                    {% ifequal victim.is_kir 1 %}
+                                        <div class="col-sm-1 col-1 mt-2">
+                                            <input class="form-check-input" type="radio" name="is_kir" id="flexRadioDefault1" value="True" checked>
+                                        </div>
+                                        <div class="col-sm-3 col-2 mt-2">
+                                            <label for="staticEmail" class="col-sm-3 form-check-label">Yes</label>
+                                        </div>
+                                        <div class="col-sm-1 col-1 mt-2">
+                                            <input class="form-check-input" type="radio" name="is_kir" id="flexRadioDefault2" value="False">
+                                        </div>
+                                        <div class="col-sm-3 col-2 mt-2">
+                                            <label for="staticEmail" class="col-sm-3 form-check-label">No</label>
+                                        </div>
+                                    {% endifequal %}
+                                    {% ifequal victim.is_kir 0 %}
+                                        <div class="col-sm-1 col-1 mt-2">
+                                            <input class="form-check-input" type="radio" name="is_kir" id="flexRadioDefault1" value="True">
+                                        </div>
+                                        <div class="col-sm-3 col-2 mt-2">
+                                            <label for="staticEmail" class="col-sm-3 form-check-label">Yes</label>
+                                        </div>
+                                        <div class="col-sm-1 col-1 mt-2">
+                                            <input class="form-check-input" type="radio" name="is_kir" id="flexRadioDefault2" value="False" checked>
+                                        </div>
+                                        <div class="col-sm-3 col-2 mt-2">
+                                            <label for="staticEmail" class="col-sm-3 form-check-label">No</label>
+                                        </div>
+                                    {% endifequal %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-4 row">
+                                    <label for="staticEmail" class="col-sm-4 col-md-2 col-form-label">Address 1</label>
+                                    <div class="col-sm-8 col-md-10">
+                                        <input type="text" class="form-control" value="{{ victim.address1 }}" id="address1" name="address1" required>
+                                    </div>
+                                </div>
+                                <div class="mb-4 row">
+                                    <label for="staticEmail" class="col-sm-4 col-md-2 col-form-label">Address 2</label>
+                                    <div class="col-sm-8 col-md-10">
+                                        <input type="text" class="form-control" value="{{ victim.address2 }}" id="address2" name="address2" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-4 row">
+                                    <label for="staticEmail" class="col-sm-4 col-form-label">Postcode</label>
+                                    <div class="col-sm-8">
+                                        <input type="number" class="form-control" value="{{ victim.poskod }}" id="poskod" name="poskod" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 d-none d-sm-block d-md-none"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-4 row">
+                                    <label for="staticEmail" class="col-sm-4 col-form-label">City</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" value="{{ victim.city }}" id="city" name="city" required>
+                                    </div>
+                                </div>
+                                <div class="mb-4 row">
+                                    <label for="staticEmail" class="col-sm-4 col-form-label">State</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" value="{{ victim.state }}" id="state" name="state" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-4 row">
+                                    <label for="staticEmail" class="col-sm-4 col-form-label">Parlimen</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" value="{{ victim.parlimen }}" id="parlimen" name="parlimen" required>
+                                    </div>
+                                </div>
+                                <div class="mb-4 row">
+                                    <label for="staticEmail" class="col-sm-4 col-form-label">Mukim</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" value="{{ victim.mukim }}" id="mukim" name="mukim" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-lg-8"></div>
+                            <div class="col-lg-4">
+                                <div class="row ">
+                                    <div class="col-5 col-md-4 col-lg-5">
+                                        <button type="submit"  class="form-control btn btn-dark" name='' value="Submit">Update</button>
+                                    </div>
+                                    <div class="col-2 col-md-4 col-lg-2"></div>
+                                    <div class="col-5 col-md-4 col-lg-5">
+                                        <button type="reset"  class="form-control btn btn-dark" name='' value="Reset">Reset</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-1"></div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+    <div class="main-footer position ">
+        <div class="footer-middle mt-0 bg-light">
+            <div class="container">
+                <div class="footer-bottom mt-2">
+                    <p class="text-xs-center footer-title-text mb-0">
+                        &copy; <script>document.write(new Date().getFullYear())</script> Ninja Aid - PKOB System from Malaysia
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if status %}
+        <script>
+            alert("{{status}}");
+        </script>
+    {% endif %}
+
+{% endblock %}

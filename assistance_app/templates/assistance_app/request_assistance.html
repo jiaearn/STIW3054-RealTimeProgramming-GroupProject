@@ -1,0 +1,96 @@
+{% extends "base1.html" %}
+{% block title %}
+Request Assistance
+{% endblock %}
+{% block custom_css %}
+
+    <style>
+        body{
+            background-color: #f8f9fc;
+        }
+
+        .border-style{
+            border-radius: 10px;
+        }
+    </style>
+{% endblock %}
+{% block content_title %}
+<h1 class="mt-3"> Request Assistance </h1>
+{% endblock  %}
+{% block content %}
+
+    <div class="px-2 px-sm-0">
+        <div class="container mb-5 pb-3 shadow border-style" style="background-color: #fff">
+            <div class="row mt-5 mx-1">
+                <div class="col-1"></div>
+                <div class="col-10">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                            <h3 class="mt-3 text-center"> Permintaan Bantuan </h3>
+                            <div class="row pt-4">
+                                <div class="col-12 col-md-6">
+                                    <div class="mb-3">
+                                        <label for="formGroupExampleInput" class="form-label">Nama</label>
+                                        <input type="text" class="form-control" maxlength="12" name="name" placeholder="e.g Joseph Dyson ( Without '-' )" value='{{victim.name}}' readonly required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="formGroupExampleInput" class="form-label">Jumlah Tanggungan</label>
+                                        <input type="number" class="form-control" min="1" name="victim_num" required>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="mb-3">
+                                        <label for="formGroupExampleInput" class="form-label">No. Kad Pengenalan</label>
+                                        <input type="text" class="form-control" maxlength="12" name="ic_no" placeholder="e.g 123456789101 ( Without '-' )" value='{{victim.ic}}' readonly required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="formGroupExampleInput" class="form-label">Jenis Bantuan</label>
+                                        <select class="form-select form-select-md mb-3" aria-label=".form-select-md example" name="assistance_type">
+                                            {% for assistance in assistance_type %}
+                                            <option value="{{ assistance.id }}">{{ assistance }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 mb-3">
+                                    <label for="formGroupExampleInput" class="form-label">Catatan</label>
+                                    <textarea type="text" class="form-control" name="remark"></textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-7 col-xl-8"></div>
+                                <div class="col-lg-5 col-xl-4">
+                                    <div class="row mb-4">
+                                        <div class="col-5 col-md-4 col-lg-5">
+                                            <button type="submit" class="form-control btn btn-dark text-light">Hantar</button>
+                                        </div>
+                                        <div class="col-2 col-md-4 col-lg-2"></div>
+                                        <div class="col-5 col-md-4 col-lg-5">
+                                            <button type="reset" class="form-control btn text-light" style="background-color: red">Batal</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                </div>
+                <div class="col-1"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <div class="main-footer position ">
+        <div class="footer-middle mt-0 bg-light">
+            <div class="container">
+                <div class="footer-bottom mt-2">
+                    <p class="text-xs-center footer-title-text mb-0">
+                        &copy; <script>document.write(new Date().getFullYear())</script> Ninja Aid - PKOB System from Malaysia
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

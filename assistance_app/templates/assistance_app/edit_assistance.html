@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit User{% endblock  %}
+
+{% block custom_css %}
+
+{% endblock  %}
+{% block content_title %}
+<h1> Edit User </h1>
+{% endblock  %}
+
+{% block content %}
+            <form action="" method="post">
+            {% csrf_token %}
+                <h1>Request Assistance</h1>
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="formGroupExampleInput" class="form-label">User ID :</label>
+                            <input type="text" class="form-control" maxlength="12" name="user_id" placeholder="1213521" value={{ user.id  }} readonly>
+                        </div>
+                    </div>
+                    <div class="col"></div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="formGroupExampleInput" class="form-label">Name</label>
+                            <input type="text" class="form-control" maxlength="12" name="name" placeholder="e.g Joseph Dyson ( Without '-' )" value='{{ user.first_name  }}{{ user.last_name  }}' required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="formGroupExampleInput" class="form-label">Victim Number</label>
+                            <input type="number" class="form-control" min="1" name="victim_num" value='{{ my_assistance.victim_number  }}' required>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="formGroupExampleInput" class="form-label">IC Number</label>
+                            <input type="text" class="form-control" maxlength="12" name="ic_no" placeholder="e.g 123456789101 ( Without '-' )" value='{{ user.ic  }}' required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="formGroupExampleInput" class="form-label">Assistance Type</label>
+                            <select class="form-select form-select-md mb-3" aria-label=".form-select-md example" name="assistance_type">
+                                {% for assistance_type in assistance_types %}
+                            
+                                <option value="{{ assistance_type.id }}" {% if my_assistance.id == assistance_type.id  %}selected{% endif %} >{{ assistance_type }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+
+                    </div>
+                    <div class="col">
+                        <p>Assistance description will be write at here as a p</p>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="mb-3">
+                        <label for="formGroupExampleInput" class="form-label" >Remark</label>
+                        <textarea type="text" class="form-control" name="remark">
+                            {{ my_assistance.remark  }}
+                        </textarea>
+                    </div>
+                </div>
+                <div style="text-align: right">
+                    <button type="reset" class="btn btn-primary btn-lg" style="background-color: red;border-color: transparent">Cancel</button>
+                    <button type="submit" class="btn btn-secondary btn-lg" style="background-color: #2a2c2e;border-color: transparent">Update</button>
+                </div>
+            </form>
+        <div style="height: 50px"></div>
+
+{% endblock %}

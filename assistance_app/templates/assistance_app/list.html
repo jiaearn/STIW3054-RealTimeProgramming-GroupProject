@@ -1,0 +1,72 @@
+{% extends 'base1.html' %}
+
+{% block title %}Assistance List{% endblock  %}
+
+{% block custom_css %}
+
+{% endblock  %}
+
+{% block content %}
+
+    <div class="container">
+        <h1 class="mt-5 text-center"> Assistance Applied Record </h1>
+        <div class="row mt-5">
+            <div class="col-12">
+                <table id="example" class="table table-bordered table-striped table-hover ">
+                  <thead class="bg-dark text-light">
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Ic Number</th>
+                        <th scope="col">Assistance Type</th>
+                        <th scope="col">Victim Number</th>
+                        <th scope="col">Progress Percentage</th>
+                        <th scope="col">Assistance Given Date</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for assistance in assistances %}
+                        <tr>
+                            <td>{{ assistance.user.first_name }} {{ assistance.user.last_name }}</td>
+                            <td>{{ assistance.user.ic }}</td>
+                            <td>{{ assistance.assistance_type }}</td>
+                            <td>{{ assistance.victim_number }}</td>
+                            <td>{{ assistance.progress_percentage }}%</td>
+                            <td>{% if  not assistance.assistance_given_date  %}
+                                    not given
+                                {% else %}
+                                    {{ assistance.assistance_given_date }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if assistance.is_approved  %}
+                                Approved
+                                {% else %}
+                                not yet approved
+                                {% endif %}
+                            </td>
+                            <td><a href="{% url "edit_assistance_type" assistance.id %}"><button class="btn" type="button" style="background-color: darkgrey"><i class="bi bi-pencil"></i></button></a></td>
+                        </tr>
+                    {% endfor%}
+                  </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
+    <script type="text/javascript" class="init">
+    $(document).ready( function (){
+
+        var events = $('#events');
+        var table = $('#example').DataTable( {
+            select: true,
+            "pagingType": "full_numbers",
+        })
+    });
+    </script>
+
+{% endblock  %}

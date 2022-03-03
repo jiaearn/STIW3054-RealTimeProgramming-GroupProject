@@ -1,0 +1,365 @@
+{#This Page is the dashboard for penghulu.#}
+{% extends "adminbase.html" %}
+{% block title %}
+    Dashboard
+{% endblock %}
+{% block custom_css %}
+
+    <style>
+        body {
+            background-color: #f8f9fc;
+        }
+    </style>
+{% endblock %}
+{% block content_title %}
+    <h1 class="mt-5"> Dashboard </h1>
+{% endblock %}
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <h3 class="mt-4 mt-sm-5"> Dashboard </h3>
+            <div class="col">
+                <div class="row">
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card shadow h-100 py-2" style="border-left: 0.25rem solid #4181FD">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                            Jumlah Mangsa
+                                        </div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            {% if victims %}
+                                                {{ victims|length }}
+                                            {% else %} 0
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="bi bi-people-fill h3" style="color: #dee2e6"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card shadow h-100 py-2" style="border-left: 0.25rem solid #08846D;">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                            Jumlah Bantuan Diminta
+                                        </div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            {% if assistance %}
+                                                {{ assistance|length }}
+                                            {% else %} 0
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="bi bi-file-earmark-person h3" style="color: #dee2e6"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card shadow h-100 py-2" style="border-left: 0.25rem solid #72E6FA;">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                            Jumlah Permintaan Belum Dilulus
+                                        </div>
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col-auto">
+                                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                                                    {{ total_pending }}
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="bi bi-arrow-clockwise h3" style="color: #dee2e6"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card shadow h-100 py-2 " style="border-left: 0.25rem solid #FFC81C;">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                            Jumlah Permintaan Dilulus
+                                        </div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            {{ total_approval }}
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="bi bi-check2-square h3" style="color: #dee2e6"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row px-3 px-sm-0">
+            <h3 class="mt-3 mt-sm-5"> Ringkasan Mangsa </h3>
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col">Bakul Makanan</th>
+                                <th scope="col">Baik Pulih Rumah</th>
+                                <th scope="col">Bantuan Rumah Baru</th>
+                                <th scope="col">Bantuan Bulanan</th>
+                                <th scope="col">Jumlah</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th>Kurang dari RM2500</th>
+                                <td id="total_food_and_below_2500"></td>
+                                <td id="total_house_repair_and_below_2500"></td>
+                                <td id="total_house_construction_and_below_2500"></td>
+                                <td id="total_monthly_assistance_and_below_2500"></td>
+                                <td id="total_below_2500"></td>
+                            </tr>
+                            <tr>
+                                <th>RM2501 - RM5000</th>
+                                <td id="total_food_and_between_2500"></td>
+                                <td id="total_house_repair_and_between_2500"></td>
+                                <td id="total_house_construction_and_between_2500"></td>
+                                <td id="total_monthly_assistance_and_between_2500"></td>
+                                <td id="total_between_2500"></td>
+                            </tr>
+                            <tr>
+                                <th>Lebih dari RM5000</th>
+                                <td id="total_food_and_above_5000"></td>
+                                <td id="total_house_repair_and_above_5000"></td>
+                                <td id="total_house_construction_and_above_5000"></td>
+                                <td id="total_monthly_assistance_and_above_5000"></td>
+                                <td id="total_above_5000"></td>
+                            </tr>
+                            <tr>
+                                <th>Jumlah</th>
+                                <td id="total_food_table"></td>
+                                <td id="total_house_repair_table"></td>
+                                <td id="total_house_construction_table"></td>
+                                <td id="total_monthly_assistance_table"></td>
+                                <td id="total"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-0 col-md-1 col-lg-2"></div>
+            <div class="col-0 col-md-10 col-lg-8">
+                <!-- Bar Chart -->
+                <div class="card shadow mb-4">
+                    <div class="card-header bg-transparent py-3">
+                        <h6 class="m-0 font-weight-bold text-gray-800">Jenis Bantuan</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-bar">
+                            <canvas id="myChart1"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-0 col-md-1 col-lg-2"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="main-footer position ">
+        <div class="footer-middle mt-0 bg-light">
+            <div class="container">
+                <div class="footer-bottom mt-2">
+                    <p class="text-xs-center footer-title-text mb-0">
+                        &copy;
+                        <script>document.write(new Date().getFullYear())</script>
+                        Ninja Aid - PKOB System from Malaysia
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        let myChart = document.getElementById('myChart1').getContext('2d');
+        total_food = 0
+        total_house_repair = 0
+        total_house_construction = 0
+        total_monthly_assistance = 0
+        {% for i in assistance %}
+            {% if i.assistance_type.name == 'Bakul Makanan' %}
+                total_food += 1
+            {% endif %}
+            {% if i.assistance_type.name == 'Baik Pulih Rumah' %}
+                total_house_repair += 1
+            {% endif %}
+            {% if i.assistance_type.name == 'Bantuan Rumah Baru' %}
+                total_house_construction += 1
+            {% endif %}
+            {% if i.assistance_type.name == 'Bantuan Bulanan' %}
+                total_monthly_assistance += 1
+            {% endif %}
+        {% endfor %}
+        let massPopChart = new Chart(myChart, {
+
+            type: 'bar',
+            data: {
+                labels: ['Bakul Makanan', 'Baik Pulih Rumah', 'Bantuan Rumah Baru', 'Bantuan Bulanan'],
+                datasets: [
+                    {
+                        data: [total_food, total_house_repair, total_house_construction, total_monthly_assistance],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                        ],
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }, plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    </script>
+    <script>
+        function tableCalculation() {
+            let total_food_and_below_2500 = 0;
+            let total_food_and_between_2500 = 0;
+            let total_food_and_above_5000 = 0;
+            let total_house_repair_and_below_2500 = 0;
+            let total_house_repair_and_between_2500 = 0;
+            let total_house_repair_and_above_5000 = 0;
+            let total_house_construction_and_below_2500 = 0;
+            let total_house_construction_and_between_2500 = 0;
+            let total_house_construction_and_above_5000 = 0;
+            let total_monthly_assistance_and_below_2500 = 0;
+            let total_monthly_assistance_and_between_2500 = 0;
+            let total_monthly_assistance_and_above_5000 = 0;
+
+            {% if victims %}
+                length = {{ victims|length }}
+            {% else %}
+            {% endif %}
+        {% for x in assistance%}
+            {% for i in victims%}
+                {% if x.assistance_type.name == 'Bakul Makanan' and i.salary <= 2500 %}
+                    total_food_and_below_2500 += 1
+                {% endif %}
+                {% if x.assistance_type.name == 'Bakul Makanan' and i.salary > 2500 and i.salary <= 5000 %}
+                    total_food_and_between_2500 += 1
+                {% endif %}
+                {% if x.assistance_type.name == 'Bakul Makanan' and i.salary > 5000 %}
+                    total_food_and_above_5000 += 1
+                {% endif %}
+                {% if x.assistance_type.name == 'Baik Pulih Rumah'  and i.salary <= 2500 %}
+                    total_house_repair_and_below_2500 += 1
+                {% endif %}
+                {% if x.assistance_type.name == 'Baik Pulih Rumah' and i.salary > 2500 and i.salary <= 5000 %}
+                    total_house_repair_and_between_2500 += 1
+                {% endif %}
+                {% if x.assistance_type.name == 'Baik Pulih Rumah' and i.salary > 5000 %}
+                    total_house_repair_and_above_5000 += 1
+                {% endif %}
+                {% if x.assistance_type.name == 'Bantuan Rumah Baru' and i.salary <= 2500 %}
+                    total_house_construction_and_below_2500 += 1
+                {% endif %}
+                {% if x.assistance_type.name == 'Bantuan Rumah Baru'  and i.salary > 2500 and i.salary <= 5000 %}
+                    total_house_construction_and_between_2500 += 1
+                {% endif %}
+                {% if x.assistance_type.name == 'Bantuan Rumah Baru'  and i.salary > 5000 %}
+                    total_house_construction_and_above_5000 += 1
+                {% endif %}
+                {% if x.assistance_type.name == 'Bantuan Bulanan' and i.salary <= 2500 %}
+                    total_monthly_assistance_and_below_2500 += 1
+                {% endif %}
+                {% if x.assistance_type.name == 'Bantuan Bulanan' and i.salary > 2500 and i.salary <= 5000 %}
+                    total_monthly_assistance_and_between_2500 += 1
+                {% endif %}
+                {% if x.assistance_type.name == 'Bantuan Bulanan' and i.salary > 5000 %}
+                    total_monthly_assistance_and_above_5000 += 1
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+
+
+            let total_food_table = (total_food_and_below_2500 / length) + (total_food_and_between_2500 / length) + (total_food_and_above_5000 / length)
+            let total_house_repair_table = (total_house_repair_and_below_2500 / length) + (total_house_repair_and_between_2500 / length) + (total_house_repair_and_above_5000 / length)
+            let total_house_construction_table = (total_house_construction_and_below_2500 / length) + (total_house_construction_and_between_2500 / length) + (total_house_construction_and_above_5000 / length)
+            let total_monthly_assistance_table = (total_monthly_assistance_and_below_2500 / length) + (total_monthly_assistance_and_between_2500 / length) + (total_monthly_assistance_and_above_5000 / length)
+
+            let total_below_2500 = (total_food_and_below_2500 / length) + (total_house_repair_and_below_2500 / length) + (total_house_construction_and_below_2500 / length) + (total_monthly_assistance_and_below_2500 / length)
+            let total_between_2500 = (total_food_and_between_2500 / length) + (total_house_repair_and_between_2500 / length) + (total_house_construction_and_between_2500 / length) + (total_monthly_assistance_and_between_2500 / length)
+            let total_above_5000 = (total_food_and_above_5000 / length) + (total_house_repair_and_above_5000 / length) + (total_house_construction_and_above_5000 / length) + (total_monthly_assistance_and_above_5000 / length)
+            let total = total_food_table + total_house_repair_table + total_house_construction_table + total_monthly_assistance_table
+
+            document.getElementById("total_food_table").innerHTML = total_food_table.toString();
+            document.getElementById("total_food_and_below_2500").innerHTML = (total_food_and_below_2500 / length).toString();
+            document.getElementById("total_food_and_between_2500").innerHTML = (total_food_and_between_2500 / length).toString();
+            document.getElementById("total_food_and_above_5000").innerHTML = (total_food_and_above_5000 / length).toString();
+            document.getElementById("total_house_repair_table").innerHTML = total_house_repair_table.toString();
+            document.getElementById("total_house_repair_and_below_2500").innerHTML = (total_house_repair_and_below_2500 / length).toString();
+            document.getElementById("total_house_repair_and_between_2500").innerHTML = (total_house_repair_and_between_2500 / length).toString();
+            document.getElementById("total_house_repair_and_above_5000").innerHTML = (total_house_repair_and_above_5000 / length).toString();
+            document.getElementById("total_house_construction_table").innerHTML = total_house_construction_table.toString();
+            document.getElementById("total_house_construction_and_below_2500").innerHTML = (total_house_construction_and_below_2500 / length).toString();
+            document.getElementById("total_house_construction_and_between_2500").innerHTML = (total_house_construction_and_between_2500 / length).toString();
+            document.getElementById("total_house_construction_and_above_5000").innerHTML = (total_house_construction_and_above_5000 / length).toString();
+            document.getElementById("total_monthly_assistance_table").innerHTML = total_monthly_assistance_table.toString();
+            document.getElementById("total_monthly_assistance_and_below_2500").innerHTML = (total_monthly_assistance_and_below_2500 / length).toString();
+            document.getElementById("total_monthly_assistance_and_between_2500").innerHTML = (total_monthly_assistance_and_between_2500 / length).toString();
+            document.getElementById("total_monthly_assistance_and_above_5000").innerHTML = (total_monthly_assistance_and_above_5000 / length).toString();
+            document.getElementById("total_below_2500").innerHTML = total_below_2500.toString();
+            document.getElementById("total_between_2500").innerHTML = total_between_2500.toString();
+            document.getElementById("total_above_5000").innerHTML = total_above_5000.toString();
+            document.getElementById("total").innerHTML = total.toString();
+        }
+    </script>
+    <script type="text/javascript">
+        tableCalculation();
+    </script>
+
+{% endblock %}
+{% block custom_js %}
+
+{% endblock %}
+

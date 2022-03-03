@@ -1,0 +1,81 @@
+{% extends "victimbase.html" %}
+
+{% block title %}
+    Victim Report
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row mt-4 px-3 px-sm-0">
+            <h1 class="text-center mb-3">Victim List</h1>
+            <div class="card shadow mb-4">
+                <div class="card-body ">
+                    <div class="table-responsive">
+                        <table id="example" class="table table-bordered py-3">
+                            <thead>
+                                <tr>
+                                    <th>Bil.</th>
+                                    <th>Nama Mangsa</th>
+                                    <th>No. Kad Pengenalan</th>
+                                    <th>No. Telefon</th>
+                                    <th>Alamat</th>
+                                    <th>Bandar</th>
+                                    <th>Mukim</th>
+                                    <th>Parlimen</th>
+                                    <th>Negeri</th>
+                                    <th>Jumlah Bantuan Diminta</th>
+                                    <th>Tindakan</th>
+                                    {% comment %} <th>Progress Percentage(%)</th>
+                                    <th>Status</th>
+                                    <th>Action</th> {% endcomment %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for victim in victims %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{victim.name}}</td>
+                                    <td>{{victim.ic}}</td>
+                                    <td>{{victim.phone}}</td>
+                                    <td>{{victim.address1}}, {{victim.address2}}</td>
+                                    <td>{{victim.city}}</td>
+                                    <td>{{victim.mukim}}</td>
+                                    <td>{{victim.parlimen}}</td>
+                                    <td>{{victim.state}}</td>
+                                    <td>{{victim.assistance_list.count}}</td>
+                                    <td>
+                                        <a href="{% url 'victim_view_assistance' victim.id %}">Lihat Bantuan Diminta</a><br>
+                                        <a href="{% url 'edit_profile' victim.id %}">Edit Butiran Mangsa</a><br>
+                                        <a href="{% url 'victim_request_assistance' victim.id %}">Tambah Permintaan Bantuan</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
+    <script type="text/javascript" class="init">
+    $(document).ready( function (){
+
+        var events = $('#events');
+        var table = $('#example').DataTable( {
+            select: true,
+            "pagingType": "full",
+        })
+    });
+    </script>
+
+    {% if status %}
+        <script>
+            alert("{{status}}");
+        </script>
+    {% endif %}
+
+{% endblock %}

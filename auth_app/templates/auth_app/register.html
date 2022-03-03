@@ -1,0 +1,141 @@
+{% extends 'base1.html' %}
+{% load static %}
+
+{% block title %}Register{% endblock %}
+
+{% block custom_css %}
+
+{% endblock %}
+{% block content_title %}
+    <h1 class='mt-5'> Daftar Akaun </h1>
+{% endblock %}
+{% block content %}
+
+    {% for msg in messages %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ msg }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+
+    <div class="container">
+        <div class="row my-4 gx-5 gy-2">
+            <div class="col-md-6">
+                <h3 class="mb-4">Daftar Akaun Anda</h3>
+                <form method="POST" class="form-group">
+                    {% csrf_token %}
+                    <div class="mb-4 row">
+                        <label for="staticEmail" class="col-sm-4 col-form-label">No. Kad Pengenalan</label>
+                        <div class="col-sm-8">
+                            <input type="text" placeholder="Kad Pengenalan, contoh: 123456789101 ( Tanpa '-' )" class="form-control"
+                                   name='ic' required>
+                        </div>
+                    </div>
+                    <div class="mb-4 row">
+                        <label for="staticEmail" class="col-sm-4 col-form-label">Nama Pertama</label>
+                        <div class="col-sm-8">
+                            <input type="text" placeholder="Nama Pertama" class="form-control"
+                                   name='first_name' required>
+                        </div>
+                    </div>
+                    <div class="mb-4 row">
+                        <label for="staticEmail" class="col-sm-4 col-form-label">Nama Keluarga</label>
+                        <div class="col-sm-8">
+                            <input type="text" placeholder="Nama Keluarga" class="form-control"
+                                   name='last_name' required>
+                        </div>
+                    </div>
+                    <div class="mb-4 row">
+                        <label for="inputPassword" class="col-sm-4 col-form-label">Kata Laluan</label>
+                        <div class="col-sm-8">
+                            <input type="password" placeholder="Kata Laluan"  class="form-control" id="inputPassword" name='password' required>
+                        </div>
+                    </div>
+                    <div class="mb-4 row">
+                        <label for="inputPassword" class="col-sm-4 col-form-label">Sahkan Kata Laluan</label>
+                        <div class="col-sm-8">
+                            <input type="password" placeholder="Sahkan Kata Laluan"  class="form-control" id="inputPassword" name='confirm_password'
+                                   required>
+                        </div>
+                    </div>
+                    <div class="mb-4 row">
+                        <label for="kod_rujukan" class="col-sm-4 col-form-label"> Kod Rujukan</label>
+                        <div class="col-sm-8">
+                            <input type="text" placeholder="Kod Rujukan" class="form-control" id="inputPassword" name='kod_rujukan' required>
+                        </div>
+                    </div>
+                    <p>Sudah mempunyai akaun? <a href='{% url 'login' %}'>Log Masuk </a></p>
+                    <button type="submit" class="btn btn-primary mb-3">Daftar</button>
+
+                </form>
+            </div>
+            <div class="col-md-6">
+                <img class="img-fluid" style="filter: brightness(90%)" src="{% static 'webimage/register.jpg' %}">
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="main-footer position ">
+        <div class="footer-middle mt-0 bg-light">
+            <div class="container">
+                <div class="row footer">
+                    <h2 class="title1 fontsize1 footer-title-text mt-5">Tentang Kami</h2>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-9 footer">
+                        <div class="row">
+                            <p style="text-align: justify">Pada setiap penghujung tahun di Malaysia, musim tengkujuh
+                                menyebabkan berlakunya bencana alam yang kerap dan menyebabkan banjir. Di samping itu,
+                                kehilangan harta benda penduduk tidak dapat dielakkan. Sebagai tindak balas, penghulu di
+                                daerah itu membentuk pasukan penyelamat pasca bencana bagi menyelesaikan kesulitan
+                                penduduk. Namun, dengan kaedah permohonan tradisional, operasi menyelamat tidak dapat
+                                berkesan dan dijalankan dengan cepat.</p>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="container">
+                                <div class="row justify-content-md-left">
+                                    <div class="col col-lg-auto">
+                                        <h4 style="font-weight: lighter">MUDAH</h4>
+                                    </div>
+                                    <div class="col col-lg-auto">
+                                        <h2 style="font-weight: lighter">CEPAT</h2>
+                                    </div>
+                                    <div class="col col-lg-auto">
+                                        <h1 style="font-weight: lighter">CEKAP</h1>
+                                    </div>
+                                    <div class="col col-lg-1">
+                                        <img src="{% static 'webimage/ninja.png' %}" class="img-fluid float-right">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <p style="text-align: justify">Dalam era teknologi canggih ini, satu sistem boleh
+                                dibangunkan untuk membantu penghulu menyelesaikan kesukarannya. Ninja Aid ialah sistem
+                                berpusat yang membantu penghulu melihat senarai mangsa dengan cepat. Sistem ini bukan
+                                sahaja cepat membantu penghulu melihat sama ada mangsa dibantu, tetapi juga mengelakkan
+                                pembaziran sumber. Maklumat mangsa terpusat dan rekod bantuan boleh membantu penghulu
+                                bertindak balas dengan lebih pantas dan mengesan rekod tersebut. Selain itu, mangsa juga
+                                boleh memohon bantuan secara dalam talian, menjimatkan tenaga dan masa berbanding kaedah
+                                permohonan tradisional.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 footer">
+                        <img src="{% static 'webimage/logo.png' %}" class="img-fluid mx-auto my-5 d-block">
+                    </div>
+                </div>
+                <br>
+                <div class="footer-bottom mt-2">
+                    <p class="text-xs-center footer-title-text mb-0">
+                        &copy;
+                        <script>document.write(new Date().getFullYear())</script>
+                        Ninja Aid - PKOB System from Malaysia
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

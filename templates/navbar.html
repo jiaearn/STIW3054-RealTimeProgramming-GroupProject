@@ -1,0 +1,69 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a href="{% url "home_page" %}"><img style ="height: 45px; object-fit: cover; position: relative" src="{% static 'webimage/logo.png' %}"></img></a>
+        <a class="navbar-brand" href="{% url "home_page" %}" style="font-size: 30px">NINJA AID</a>
+        <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav"
+                aria-controls="navbarNav"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            {% if user.is_authenticated%}
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{% url "dashboard" %}"><span class="bi bi-house"> Menu Utama</span></a
+                >
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{% url "add_victim" %}">
+                    <span class="bi bi-layers-half"> Tambah Butiran Mangsa</span>
+                </a
+                >
+            </li> 
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{% url "list_victim" %}"><span class="bi bi-card-list"> Senarai Butiran Mangsa</span></a
+                >
+            </li>
+            {% else %}
+
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{% url "register" %}">
+                    Daftar
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{% url "login" %}">
+                    Log Masuk
+                </a>
+            </li>
+            {% endif %}
+
+          </ul>
+          <ul class="navbar-nav ms-auto">
+            {% if user.is_authenticated%}
+
+            <li class='nav-item my-auto mx-4'>
+                <p class='text-white nav-link p-0 m-0'> Hi, Admin {{ user.first_name }} </p>
+            </li>
+            <li class="nav-item">
+
+                <a class="nav-link active" aria-current="page" href="{% url "logout" %}">
+                    <div style="background-color: red; padding: 0px 4px;border-radius: 4px">
+                    <span class="bi bi-door-open"> Log Keluar</span>
+                    </div>
+                </a>
+            </li>
+            {% endif %}
+          </ul>
+
+        </div>
+    </div>
+
+</nav>

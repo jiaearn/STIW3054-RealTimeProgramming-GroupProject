@@ -1,0 +1,185 @@
+{#This Page is for penghulu to view victim list, and also their bantuan.#}
+{#With this page, penghulu can also update victim's bantuan, and delete victim's bantuan too#}
+{% extends "adminbase.html" %}
+{% block title %}
+Victim List
+{% endblock %}
+{% block custom_css %}
+
+    <style>
+        body{
+            background-color: #f8f9fc;
+        }
+
+        .border-style{
+            border-radius: 10px;
+        }
+    </style>
+{% endblock %}
+{% block content_title %}
+<h1 class="mt-5"> Victim List </h1>
+{% endblock  %}
+{% block content %}
+
+    <script language="JavaScript">
+        function formValidation() {
+
+            /*Get Data*/
+
+            const icno = document.trackstatus.icno;
+            const name = document.trackstatus.name;
+            const phone = document.trackstatus.phone;
+            const postcode = document.trackstatus.postcode;
+
+            console.log(icno)
+            console.log(icno)
+
+            /*Validate*/
+            const all_letters = /^[A-Za-z "]+$/;
+            const phone_start = /^[0]/;
+            const phone_len = phone.value.length;
+            const icno_len = icno.value.length;
+            const postcode_len = postcode.value.length;
+
+            /*Name Contain Only Alphabet*/
+            if (!name.value.match(all_letters)) {
+                alert("Name must contain only alphabet characters.");
+                name.focus();
+                return false;
+            }
+            /*IC Number Contain Only Numeric*/
+            else if (isNaN(icno.value)) {
+                alert("IC number must contain only numeric characters.")
+                icno.focus();
+                return false;
+            }
+            /*IC Number Length*/
+            else if (icno_len < 12 || icno_len > 12) {
+                alert("IC number length should equal 12.");
+                icno.focus();
+                return false;
+            }
+            /*Phone Number Contain Only Numeric*/
+            else if (isNaN(phone.value)) {
+                alert("Phone number must contain only numeric characters.")
+                phone.focus();
+                return false;
+            }
+            /*Phone Number Start With Zero*/
+            if (!phone.value.match(phone_start)) {
+                alert("Phone number should start with zero. Please insert again");
+                phone.focus();
+                return false;
+            }
+            /*Phone Number Length Must Greater Than 9 and Lower Than 13*/
+            else if (phone_len < 10 || phone_len > 13) {
+                alert("Phone number length must be between 10 to 13.");
+                phone.focus();
+                return false;
+            }
+            /*Poskod Length*/
+            else if (postcode_len < 5 || postcode_len > 5) {
+                alert("Poskod length should equal 5.");
+                postcode.focus();
+                return false;
+            }
+        }
+    </script>
+
+    <div class="px-2 px-sm-0">
+        <div class="container mb-5 pb-3 shadow border-style" style="background-color: #fff">
+            <div class="row mt-5 mx-1">
+                <div class="col-1"></div>
+                <div class="col-10">
+                    <form method="POST" class="form-group" enctype="multipart/form-data" name="trackstatus" onsubmit="return formValidation();">
+                    {% csrf_token %}
+
+                        <h3 class="my-4 text-center">Assistance Request</h3>
+
+                        <div class="row">
+                        <p class="mb-4 text-center text-muted">Assistance ID : {{victim_assistance.id}}</p>
+
+                            <div class="col-md-6">
+                                <div class="mb-4 row">
+                                    <label for="staticEmail" class="col-sm-4 col-lg-5 col-xl-4 col-form-label">Assistance Type</label>
+                                    <div class="col-sm-8 col-lg-7 col-xl-8">
+                                        <select class="form-select" name='assistance_type' required>
+                                            {% comment %} <option selected>Choose</option>
+                                            <option value="1">Food Supplement</option>
+                                            <option value="2">House Repair</option>
+                                            <option value="3">Monthly Assistance</option>
+                                            <option value="4">New House Assistance</option> {% endcomment %}
+                                            {% for assistance_type in assistance_types %}
+                                                <option value="{{ assistance_type.id }}" {% if victim_assistance.assistance_type.id ==  assistance_type.id %}selected{% endif %} >{{assistance_type}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mb-4 row">
+                                    <label for="staticEmail" class="col-sm-4 col-lg-5 col-xl-4 col-form-label">Remark</label>
+                                    <div class="col-sm-8 col-lg-7 col-xl-8">
+                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" name='remark'>{{ victim_assistance.remark }}</textarea>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-4 row">
+                                    <label for="staticEmail" class="col-sm-4 col-form-label">Victim Number</label>
+                                    <div class="col-sm-8">
+                                        <input type="number" class="form-control" id='victimnumber' name='victimnumber' value='{{victim_assistance.victim_number}}' required>
+                                    </div>
+                                </div>
+                                <div class="mb-4 row">
+                                    <label for="staticEmail" class="col-sm-4 col-form-label">Status</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id='status' name='status' value='{% if victim_assistance.is_approved %} approved {% else %} not approved{% endif %}' readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-5">
+                            <div class="col-lg-8"></div>
+                            <div class="col-lg-4">
+                                <div class="row ">
+                                    <div class="col-5 col-md-4 col-lg-5 mt-2">
+                                        <button type="submit"  class="form-control btn btn-dark" name='' value="Submit">Update</button>
+                                    </div>
+                                    <div class="col-2 col-md-4 col-lg-2"></div>
+                                    <div class="col-5 col-md-4 col-lg-5 mt-2">
+    {#                                    <button class="btn btn-primary m-0">Reset</button>#}
+                                        <button type="reset"  class="form-control btn btn-dark" name='' value="Reset">Reset</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-1"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="main-footer position ">
+        <div class="footer-middle mt-0 bg-light">
+            <div class="container">
+                <div class="footer-bottom mt-2">
+                    <p class="text-xs-center footer-title-text mb-0">
+                        &copy; <script>document.write(new Date().getFullYear())</script> Ninja Aid - PKOB System from Malaysia
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if status %}
+        <script>
+            alert("{{status}}");
+        </script>
+    {% endif %}
+
+{% endblock %}
+{% block custom_js %}
+{% endblock %}

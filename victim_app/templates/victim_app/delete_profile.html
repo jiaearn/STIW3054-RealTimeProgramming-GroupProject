@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Delete Profile
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid text-center">
+        <div class="col-md-6 mx-auto p-4">
+            <div class="card shadow shadow-lg">
+                <div class="my-3 card-body">
+                    <h3>Are you sure want to delete? {{context}}</h3>
+                    <div class="mt-4">
+                        <p class="fs-5 fst-italic">{{ victim.id }}</p>
+                        <p class="fs-5 fst-italic">{{ victim.name }}</p>
+                    </div>
+                    <div class="mt-4">
+                        <a href="{% url 'delete_profile' victim.id %}?action=confirm" class="btn btn-danger" style="width: 90px;">OK</a>
+                        <a href="{% url 'list_victim' %}" class="btn btn-warning" style="width: 90px;">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    {% if status %}
+        <script>
+            alert("{{status}}");
+            window.location = "/victim/list_user/"
+        </script>
+    {% endif %}
+
+{% endblock %}

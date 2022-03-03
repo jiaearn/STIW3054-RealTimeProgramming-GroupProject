@@ -1,0 +1,428 @@
+{% extends 'victimbase.html' %}
+{% load static %}
+
+{% block title %}Home Page{% endblock %}
+{% block custom_css %}
+    <style>
+        .introduction_row {
+            position: relative;
+        }
+
+        .title {
+            position: absolute;
+            top: 30%;
+            transform: translate(0, -50%);
+            color: #ffffff;
+            background: linear-gradient(to right, #4d4d4d 0, white 10%, #4d4d4d 20%);
+            background-position: 0;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: title 20s;
+            animation-fill-mode: forwards;
+            -webkit-text-size-adjust: none;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .subtitle {
+            position: absolute;
+            top: 50%;
+        }
+
+        .msocial {
+            font-size: 1.5rem;
+        }
+
+        .msocial_link {
+            font-size: 1rem;
+        }
+
+        @keyframes title {
+            0% {
+                background-position: 0px
+            }
+            50% {
+                background-position: 950px
+            }
+            100% {
+                background-position: 950px;
+                animation: ease-in-out;
+                -webkit-text-fill-color: white;
+            }
+        }
+
+        .title:after {
+            content: "";
+            animation: spin 23s 1 forwards;
+        }
+
+        @keyframes spin {
+            0% {
+                content: "PUSAT KAWALAN OPERASI BENCANA";
+            }
+            100% {
+                content: "PUSAT KAWALAN OPERASI BENCANA (PKOB)";
+            }
+        }
+
+        @media all and (min-width: 1281px) {
+            .title {
+                font-size: 50px;
+            }
+
+            .subtitle {
+                font-size: 32px;
+                width: 50%;
+                left: 25%;
+            }
+
+            .search_button {
+                width: 15%;
+                font-size: 16px;
+            }
+        }
+
+        @media all and (min-width: 1025px) and (max-width: 1280px) {
+            .title {
+                font-size: 40px;
+            }
+
+            .subtitle {
+                font-size: 26px;
+                width: 50%;
+                left: 25%;
+            }
+
+            .search_button {
+                width: 15%;
+                font-size: 14px;
+            }
+        }
+
+        @media all and (min-width: 769px) and (max-width: 1024px) {
+            .title {
+                font-size: 30px;
+            }
+
+            .subtitle {
+                font-size: 20px;
+                width: 52%;
+                left: 25%;
+            }
+
+            .search_field{
+                width: 80%;
+            }
+
+            .search_button {
+                width: 18%;
+                font-size: 14px;
+            }
+
+            .msocial {
+                font-size: 1rem
+            }
+
+            .msocial_link {
+                font-size: .5rem
+            }
+        }
+
+        @media all and (min-width: 601px) and (max-width: 768px) {
+            .title {
+                font-size: 30px;
+            }
+
+            .subtitle {
+                font-size: 16px;
+                width: 56%;
+                left: 22%;
+            }
+
+            .search_field{
+                width: 100%;
+                height: 40%;
+                font-size: 14px;
+            }
+
+            .search_button {
+                width: 20%;
+                height: 20%;
+                font-size: 12px;
+            }
+
+            .msocial {
+                font-size: 1rem
+            }
+
+            .msocial_link {
+                font-size: .5rem
+            }
+        }
+
+        @media all and (min-width: 500px) and (max-width: 600px) {
+            .title {
+                font-size: 20px;
+            }
+
+            .subtitle {
+                font-size: 12px;
+                width: 57%;
+                left: 20%;
+            }
+
+            .search_field{
+                height: 50%;
+                font-size: 12px;
+            }
+
+            .search_button {
+                width: 20%;
+                height: 20%;
+                font-size: 10px;
+            }
+
+            .msocial {
+                font-size: .1rem
+            }
+
+            .msocial_link {
+                font-size: .5rem
+            }
+        }
+
+        @media all and (min-width: 321px) and (max-width: 499px) {
+            .title {
+                font-size: 12px;
+            }
+
+            .subtitle {
+                font-size: 8px;
+                width: 50%;
+                left: 25%;
+            }
+
+            .search_field{
+                padding: 5px 10px;
+                height: 50%;
+                font-size: 8px;
+            }
+
+            .search_button {
+                padding: 5px 8px;
+                width: 26%;
+                height: 18%;
+                font-size: 7px;
+            }
+
+            .msocial {
+                font-size: .7rem
+            }
+
+            .msocial_link {
+                font-size: .35rem
+            }
+        }
+
+        @media all and (max-width: 320px) {
+            .title {
+                font-size: 12px;
+            }
+
+            .subtitle {
+                font-size: 8px;
+                width: 50%;
+                left: 25%;
+            }
+
+            .search_field{
+                padding: 5px 10px;
+                height: 50%;
+                font-size: 6px;
+            }
+
+            .search_button {
+                padding: 5px;
+                width: 25%;
+                height: 18%;
+                font-size: 5px;
+            }
+
+            .msocial {
+                font-size: .7rem
+            }
+
+            .msocial_link {
+                font-size: .35rem
+            }
+        }
+    </style>
+{% endblock %}
+{% block content_title %}
+    <h1 class="mt-5"> PUSAT KAWALAN OPERASI BENCANA</h1>
+{% endblock %}
+{% block content %}
+
+    <!-- body -->
+    <section class="introduction">
+        <div class="row introduction_row">
+            <img class="img-fluid" style="filter: brightness(40%)" src="{% static 'webimage/kedahview.png' %}">
+            <h2 class="title text-center"></h2>
+            <div class="container subtitle">
+                <p class="text-light text-left mb-xs-2 mb-1" style="font-weight: lighter">Aplikasi ini membantu mengesan mangsa
+                    yang mendapat bantuan di Kedah dengan mudah.</p>
+                <form method='POST' class="d-flex">
+                    {% csrf_token %}
+                    <input class="form-control me-2 search_field" type="search" name='search' placeholder="eg: 123456123456@0124561234" aria-label="Search">
+                    <button class="btn btn-light search_button text-center" type="submit">Cari</button>
+                </form>
+                    {% for msg in messages %}
+                        <div class="alert alert-warning alert-dismissible fade show mt-3" role="alert">
+                            <p class="h5"><strong> 
+                                {{ msg }}.
+                                </strong> do you want to apply? <a class="btn btn-warning text-white" href="{% url 'add_profile' %}" role="button">Click here</a></p>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                   
+
+               
+                
+            </div>
+        </div>
+        
+    </section>
+
+    <section class="service">
+        <div class="container">
+            <div class="row mt-4">
+                <div class="col-lg-3 col-md-6 col-xs-12">
+                    <h3 class="text-center" style="font-weight: lighter">Bakul Makanan</h3>
+                    <img src="{% static 'webimage/food.png' %}" class="img-fluid mx-auto d-block" style="width: 60%">
+                    <p style="text-align: justify">Bakul Makanan menyediakan makanan kepada mangsa untuk menyelesaikan masalah
+                        kelaparan.</p>
+                </div>
+                <div class="col-lg-3 col-md-6 col-xs-12">
+                    <h3 class="text-center" style="font-weight: lighter">Baik Pulih Rumah</h3>
+                    <img src="{% static 'webimage/repair.png' %}" class="img-fluid mx-auto d-block" style="width: 60%">
+                    <p style="text-align: justify">Baik Pulih Rumah menyediakan pasukan pasca bencana untuk membaiki rumah
+                        mangsa.</p>
+                </div>
+                <div class="col-lg-3 col-md-6 col-xs-12">
+                    <h3 class="text-center" style="font-weight: lighter">Bantuan Rumah Baru</h3>
+                    <img src="{% static 'webimage/construction.png' %}" class="img-fluid mx-auto d-block"
+                         style="width: 60%">
+                    <p style="text-align: justify">Bantuan Rumah Baru menyediakan perkhidmatan pembinaan kepada mereka yang
+                        kehilangan tempat tinggal supaya mereka boleh mendapatkan semula kediaman mereka.</p>
+                </div>
+                <div class="col-lg-3 col-md-6 col-xs-12">
+                    <h3 class="text-center" style="font-weight: lighter">Bantuan Bulanan</h3>
+                    <img src="{% static 'webimage/donation.png' %}" class="img-fluid mx-auto d-block"
+                         style="width: 60%">
+                    <p style="text-align: justify">Bantuan bulanan menyediakan bantuan kewangan kepada mangsa supaya mereka
+                        mendapat keperluan asas setiap bulan.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <div class="main-footer position ">
+        <div class="footer-middle mt-0 bg-light">
+            <div class="container">
+                <div class="row footer">
+                    <h2 class="title1 fontsize1 footer-title-text mt-5">Tentang Kami</h2>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-9 footer">
+                        <div class="row">
+                            <p style="text-align: justify">Pada setiap penghujung tahun di Malaysia, musim tengkujuh
+                                menyebabkan berlakunya bencana alam yang kerap dan menyebabkan banjir. Di samping itu,
+                                kehilangan harta benda penduduk tidak dapat dielakkan. Sebagai tindak balas, penghulu di
+                                daerah itu membentuk pasukan penyelamat pasca bencana bagi menyelesaikan kesulitan
+                                penduduk. Namun, dengan kaedah permohonan tradisional, operasi menyelamat tidak dapat
+                                berkesan dan dijalankan dengan cepat.</p>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="container">
+                                <div class="row justify-content-md-left">
+                                    <div class="col col-lg-auto">
+                                        <h4 style="font-weight: lighter">MUDAH</h4>
+                                    </div>
+                                    <div class="col col-lg-auto">
+                                        <h2 style="font-weight: lighter">CEPAT</h2>
+                                    </div>
+                                    <div class="col col-lg-auto">
+                                        <h1 style="font-weight: lighter">CEKAP</h1>
+                                    </div>
+                                    <div class="col col-lg-1">
+                                        <img src="{% static 'webimage/ninja.png' %}" class="img-fluid float-right">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <p style="text-align: justify">Dalam era teknologi canggih ini, satu sistem boleh
+                                dibangunkan untuk membantu penghulu menyelesaikan kesukarannya. Ninja Aid ialah sistem
+                                berpusat yang membantu penghulu melihat senarai mangsa dengan cepat. Sistem ini bukan
+                                sahaja cepat membantu penghulu melihat sama ada mangsa dibantu, tetapi juga mengelakkan
+                                pembaziran sumber. Maklumat mangsa terpusat dan rekod bantuan boleh membantu penghulu
+                                bertindak balas dengan lebih pantas dan mengesan rekod tersebut. Selain itu, mangsa juga
+                                boleh memohon bantuan secara dalam talian, menjimatkan tenaga dan masa berbanding kaedah
+                                permohonan tradisional.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 footer">
+                        <img src="{% static 'webimage/logo.png' %}" class="img-fluid mx-auto my-5 d-block">
+                    </div>
+                </div>
+                <hr>
+                <div class="row footer">
+                    <h2 class="title1 fontsize1 footer-title-text mt-2">Hubungi Kami</h2>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-3 footer">
+                        <img src="{% static 'webimage/contactus.png' %}" class="img-fluid mx-auto my-5 d-block">
+                    </div>
+                    <div class="col-md-9 footer">
+                        <br>
+                        <div class="row justify-content-center">
+                            <div class="col-4">
+                                <div class="card">
+                                    <img src="{% static 'webimage/facebook-logo.png' %}"
+                                         class="img-fluid mx-auto my-2 d-block w-50">
+                                    <div class="card-body">
+                                        <h5 class="msocial text-center">FACEBOOK</h5>
+                                        <a href="https://www.facebook.com/ninjaaidpkob/">
+                                            <p class="msocial_link text-center">Ninja Aid-PKOB</p>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="card">
+                                    <img src="{% static 'webimage/gmail-logo.png' %}"
+                                         class="img-fluid mx-auto my-2 d-block w-50">
+                                    <div class="card-body">
+                                        <h5 class="msocial text-center">EMAIL</h5>
+                                        <p class="msocial_link text-center">ninjaaidpkob@gmail.com</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <br>
+                <div class="footer-bottom mt-2">
+                    <p class="text-xs-center footer-title-text mb-0">
+                        &copy;
+                        <script>document.write(new Date().getFullYear())</script>
+                        Ninja Aid - PKOB System from Malaysia
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
